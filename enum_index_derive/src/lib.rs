@@ -4,7 +4,7 @@ extern crate quote;
 extern crate proc_macro;
 use proc_macro::TokenStream;
 
-fn impl_get_index(ast: &syn::DeriveInput) -> quote::Tokens {
+fn impl_enum_index(ast: &syn::DeriveInput) -> quote::Tokens {
     let name = &ast.ident;
     let (impl_generics, ty_generics, where_clause) = ast.generics.split_for_impl();
 
@@ -32,7 +32,7 @@ fn impl_get_index(ast: &syn::DeriveInput) -> quote::Tokens {
 
     quote!{
         impl #impl_generics enum_index::EnumIndex for #name #ty_generics #where_clause {
-            fn get_index(&self) -> usize {
+            fn enum_index(&self) -> usize {
                 match *self {
                     #(#matches),*
                 }
@@ -42,10 +42,10 @@ fn impl_get_index(ast: &syn::DeriveInput) -> quote::Tokens {
 }
 
 #[proc_macro_derive(EnumIndex)]
-pub fn get_index(input: TokenStream) -> TokenStream {
+pub fn enum_index(input: TokenStream) -> TokenStream {
     let s = input.to_string();
     let ast = syn::parse_derive_input(&s).unwrap();
 
-    let tokens = impl_get_index(&ast);
+    let tokens = impl_enum_index(&ast);
     tokens.parse().unwrap()
 }

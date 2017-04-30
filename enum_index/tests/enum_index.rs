@@ -14,7 +14,7 @@ enum TestEnum {
 
 #[test]
 fn test_derive() {
-    assert_eq!(TestEnum::VariantA.get_index(), 0usize);
-    assert_eq!(TestEnum::VariantB(false).get_index(), 1usize);
-    assert_eq!(TestEnum::VariantC { x: 0f32, y: 0u64}.get_index(), 2usize);
+    assert_eq!(TestEnum::VariantA.enum_index(), 0usize);
+    assert_eq!(TestEnum::VariantB(false).enum_index(), 1usize);
+    assert_eq!(TestEnum::VariantC { x: 0f32, y: 0u64}.enum_index(), 2usize);
 }

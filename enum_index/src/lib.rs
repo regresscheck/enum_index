@@ -1,3 +1,3 @@
 pub trait EnumIndex {
-    fn get_index(&self) -> usize;
+    fn enum_index(&self) -> usize;
 }

@@ -5,7 +5,7 @@ The main case is implementation of your own enum serialization.
 
 ```rust
 pub trait EnumIndex {
-    fn get_index(&self) -> usize;
+    fn enum_index(&self) -> usize;
 }
 ```
 
@@ -28,9 +28,9 @@ fn main() {
     let first = Object::None;
     let second = Object::Number(0u64);
     let third = Object::Point {x: 0f32, y: 0f32};
-    println!("{}", first.get_index()); // prints 0
-    println!("{}", second.get_index()); // prints 1
-    println!("{}", third.get_index()); // prints 2
+    println!("{}", first.enum_index()); // prints 0
+    println!("{}", second.enum_index()); // prints 1
+    println!("{}", third.enum_index()); // prints 2
 }
 ```
 
