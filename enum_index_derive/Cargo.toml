@@ -1,0 +1,19 @@
+[package]
+name = "enum_index_derive"
+version = "0.1.0"
+authors = ["Andrey Putilin <regresscheck@gmail.com>"]
+license = "MIT"
+
+description = "Macros for extracting Enum variant index"
+keywords = ["enum", "macros"]
+
+homepage = "https://github.com/regresscheck/enum_index"
+
+readme = "../README.md"
+
+[dependencies]
+syn = "0.11.11"
+quote = "0.3.15"
+
+[lib]
+proc-macro = true
