@@ -1,11 +1,11 @@
 [package]
 name = "enum_index"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Andrey Putilin <regresscheck@gmail.com>"]
 license = "MIT"
 
 description = "Trait and macros for extracting Enum variant index"
-keywords = ["enum", "macros"]
+keywords = ["enum", "macros", "index"]
 
 homepage = "https://github.com/regresscheck/enum_index"
 
@@ -14,4 +14,5 @@ readme = "../README.md"
 
 [dev-dependencies]
 enum_index_derive = "0.1.1"
-#enum_index_derive = { path = "../enum_index_derive"}
+index_enum_derive = { path = "../index_enum_derive" }
+#enum_index_derive = { path = "../enum_index_derive" }
