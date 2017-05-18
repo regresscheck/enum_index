@@ -39,7 +39,7 @@ Add the following in your Cargo.toml file
 ```toml
 [dependencies]
 enum_index = "*"
-enum_index = "*"
+enum_index_derive = "*"
 ```
 
 Then import needed trait and macro
