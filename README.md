@@ -35,9 +35,9 @@ enum Object {
 // IndexEnum can only be derived for C-like enums
 #[derive(EnumIndex, IndexEnum, Debug)]
 enum OpCode {
-    Disconnect,
-    SendData,
-    SomethingElse
+    Disconnect,              // 0
+    SendData,                // 1
+    SomethingElse            // 2
 }
 
 fn main() {
