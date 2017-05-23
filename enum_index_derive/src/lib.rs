@@ -76,15 +76,32 @@ fn impl_index_enum(ast: &syn::DeriveInput) -> quote::Tokens {
 
     for variant in variants {
         use syn::VariantData::*;
-
-        if let Unit = variant.data {
-            let ident = &variant.ident;
-            
-            index_matches.push(quote! { #index => Some(#name::#ident) });
-            index += 1;
-        } else {
-            panic!("IndexEnum can be only implemented for C-like Enums");
+        let ident = &variant.ident;
+        match variant.data {
+            Unit => {
+                index_matches.push(quote! { #index => Some(#name::#ident) });
+            },
+            Tuple(ref fields) => {
+                let mut initialized_fields = Vec::new();
+                for field in fields {
+                    let field_type = &field.ty;
+                    initialized_fields.push(quote! { #field_type::default()} );
+                }
+                index_matches.push(quote! {
+                    #index => Some(#name::#ident(#(#initialized_fields),*))
+                });
+            }
+            Struct(ref fields) => {
+                let mut initialized_fields = Vec::new();
+                for field in fields {
+                    let field_name = &field.ident;
+                    let field_type = &field.ty;
+                    initialized_fields.push(quote! { #field_name: #field_type::default()});
+                }
+                index_matches.push(quote! { #index => Some(#name::#ident{#(#initialized_fields),*})});
+            }
         }
+        index += 1;
     }
 
 

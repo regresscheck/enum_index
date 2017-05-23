@@ -1,6 +1,6 @@
 # EnumIndex
 EnumIndex is a trait to extract variant index from enums in Rust.
-IndexEnum is a trait that allows you to get an enum variant by indexing. It only  works on C-like enums.
+IndexEnum is a trait that allows you to get an enum variant by indexing. It only  works if all parameters of Enum implement Default
 
 The main case is implementation of your own enum serialization.
 
@@ -35,9 +35,9 @@ enum Object {
 // IndexEnum can only be derived for C-like enums
 #[derive(EnumIndex, IndexEnum, Debug)]
 enum OpCode {
-    Disconnect,              // 0
-    SendData,                // 1
-    SomethingElse            // 2
+    Disconnect,                       // 0
+    SendData(String),                 // 1
+    SomethingElse { a: f32, b: u64 }  // 2
 }
 
 fn main() {
@@ -48,8 +48,8 @@ fn main() {
     println!("{}", second.enum_index()); // prints 1
     println!("{}", third.enum_index()); // prints 2
 
-    let send_data_variant = OpCode::index_enum(1).unwrap();
-    println!("{:?}", send_data_variant); // prints SendData
+    let send_data_variant = OpCode::index_enum(2).unwrap();
+    println!("{:?}", send_data_variant); // prints SomethingElse{a: 0f32, b: 0u64}
 }
 ```
 

@@ -19,19 +19,20 @@ fn test_enum_index_derive() {
     assert_eq!(TestEnumFirst::VariantC { x: 0f32, y: 0u64}.enum_index(), 2usize);
 }
 
-
 #[allow(dead_code)]
 #[derive(IndexEnum, PartialEq, Debug)]
 enum TestEnumSecond {
     VariantA,
-    VariantB,
-    VariantC
+    VariantB(u64),
+    VariantC{x: f32, y: f64}
 }
 
 #[test]
 fn test_index_enum_derive() {
     assert_eq!(TestEnumSecond::index_enum(0), Some(TestEnumSecond::VariantA));
-    assert_eq!(TestEnumSecond::index_enum(1), Some(TestEnumSecond::VariantB));
-    assert_eq!(TestEnumSecond::index_enum(2), Some(TestEnumSecond::VariantC));
+    assert_eq!(TestEnumSecond::index_enum(1), Some(TestEnumSecond::VariantB(u64::default())));
+    assert_eq!(TestEnumSecond::index_enum(2), Some(TestEnumSecond::VariantC{
+        x: f32::default(), y: f64::default()
+    }));
     assert_eq!(TestEnumSecond::index_enum(3), None);
 }
