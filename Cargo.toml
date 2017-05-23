@@ -1,5 +1,6 @@
 [workspace]
 members = [
     "enum_index",
-    "enum_index_derive"
+    "enum_index_derive",
+    "index_enum_derive"
 ]
