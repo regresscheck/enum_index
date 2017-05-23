@@ -68,7 +68,7 @@ fn impl_index_enum(ast: &syn::DeriveInput) -> quote::Tokens {
 
     let variants = match ast.body {
         syn::Body::Enum(ref v) => v,
-        _ => panic!("EnumIndex can be only implemented for Enums")
+        _ => panic!("IndexEnum can be only implemented for Enums")
     };
 
     let mut index_matches = Vec::new();
