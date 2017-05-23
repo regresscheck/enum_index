@@ -13,6 +13,4 @@ readme = "../README.md"
 
 
 [dev-dependencies]
-enum_index_derive = "0.1.1"
-index_enum_derive = { path = "../index_enum_derive" }
 #enum_index_derive = { path = "../enum_index_derive" }
