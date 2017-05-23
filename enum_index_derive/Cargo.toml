@@ -1,6 +1,6 @@
 [package]
 name = "enum_index_derive"
-version = "0.1.2"
+version = "0.2.0"
 authors = ["Andrey Putilin <regresscheck@gmail.com>"]
 license = "MIT"
 
