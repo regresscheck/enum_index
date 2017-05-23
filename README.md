@@ -1,6 +1,7 @@
 # EnumIndex
-EnumIndex is a trait to extract variant index from enums in Rust.
+EnumIndex is a trait to extract variant index from enums in Rust.  
 IndexEnum is a trait that allows you to get an enum variant by indexing. It only  works if all parameters of Enum implement Default
+
 
 The main case is implementation of your own enum serialization.
 
