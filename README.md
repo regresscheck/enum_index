@@ -22,18 +22,10 @@ pub trait IndexEnum {
 extern crate enum_index;
 #[macro_use]
 extern crate enum_index_derive;
-#[macro_use]
-extern crate index_enum_derive;
 use enum_index::{EnumIndex, IndexEnum};
 
-#[derive(EnumIndex)]
-enum Object {
-    None,                    // 0
-    Number(u64),             // 1
-    Point {x: f32, y: f32}   // 2
-}
-
-// IndexEnum can only be derived for C-like enums
+// IndexEnum can only be derived for enums with parameters implementing Default
+// In this example Default is checked for String, f32 and u64.
 #[derive(EnumIndex, IndexEnum, Debug)]
 enum OpCode {
     Disconnect,                       // 0
@@ -42,9 +34,9 @@ enum OpCode {
 }
 
 fn main() {
-    let first = Object::None;
-    let second = Object::Number(0u64);
-    let third = Object::Point {x: 0f32, y: 0f32};
+    let first = OpCode::Disconnect;
+    let second = OpCode::SendData("hello");
+    let third = OpCode::SomethingElse {a: 1f32, b: 2u64};
     println!("{}", first.enum_index()); // prints 0
     println!("{}", second.enum_index()); // prints 1
     println!("{}", third.enum_index()); // prints 2
@@ -58,8 +50,8 @@ fn main() {
 Add the following in your Cargo.toml file
 ```toml
 [dependencies]
-enum_index = "*"
-enum_index_derive = "*"
+enum_index = "0.2.0"
+enum_index_derive = "0.2.0"
 ```
 
 Then import needed trait and macro

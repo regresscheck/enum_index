@@ -4,7 +4,7 @@ version = "0.2.0"
 authors = ["Andrey Putilin <regresscheck@gmail.com>"]
 license = "MIT"
 
-description = "Macros for extracting Enum variant index"
+description = "Macros for extracting Enum variant index and creating Enum by variant index"
 keywords = ["enum", "macros"]
 
 homepage = "https://github.com/regresscheck/enum_index"
