@@ -19,7 +19,9 @@ pub trait IndexEnum {
 # Example
 
 ```rust
+// Contains needed traits
 extern crate enum_index;
+// Contains derives
 #[macro_use]
 extern crate enum_index_derive;
 use enum_index::{EnumIndex, IndexEnum};
@@ -56,7 +58,6 @@ enum_index_derive = "0.2.0"
 
 Then import needed trait and macro
 ```rust
-// Strum contains all the trait definitions
 extern crate enum_index;
 #[macro_use]
 extern crate enum_index_derive;
