@@ -43,8 +43,8 @@ fn main() {
     println!("{}", second.enum_index()); // prints 1
     println!("{}", third.enum_index()); // prints 2
 
-    let send_data_variant = OpCode::index_enum(2).unwrap();
-    println!("{:?}", send_data_variant); // prints SomethingElse{a: 0f32, b: 0u64}
+    let opcode_variant = OpCode::index_enum(2).unwrap();
+    println!("{:?}", opcode_variant); // prints SomethingElse{a: 0f32, b: 0u64}
 }
 ```
 
