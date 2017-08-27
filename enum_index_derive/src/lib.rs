@@ -77,6 +77,14 @@ fn impl_index_enum(ast: &syn::DeriveInput) -> quote::Tokens {
     for variant in variants {
         use syn::VariantData::*;
         let ident = &variant.ident;
+        match variant.discriminant {
+            None => {},
+            Some(syn::ConstExpr::Lit(syn::Lit::Int(i, _))) => {
+                index = i as usize;
+            },
+            Some(_) => panic!("Unhandled enum discriminant!"),
+        };
+
         match variant.data {
             Unit => {
                 index_matches.push(quote! { #index => Some(#name::#ident) });
