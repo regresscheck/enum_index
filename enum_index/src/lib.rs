@@ -1,3 +1,7 @@
+#![no_std]
+
+use core::marker::Sized;
+
 pub trait EnumIndex {
     fn enum_index(&self) -> usize;
 }
