@@ -6,33 +6,32 @@ use proc_macro::TokenStream;
 
 #[proc_macro_derive(EnumIndex)]
 pub fn enum_index(input: TokenStream) -> TokenStream {
-    let s = input.to_string();
-    let ast = syn::parse_derive_input(&s).unwrap();
+    let ast: syn::DeriveInput = syn::parse(input).unwrap();
 
     let tokens = impl_enum_index(&ast);
-    tokens.parse().unwrap()
+    tokens.into()
 }
 
 
-fn impl_enum_index(ast: &syn::DeriveInput) -> quote::Tokens {
+fn impl_enum_index(ast: &syn::DeriveInput) -> proc_macro2::TokenStream {
     let name = &ast.ident;
     let (impl_generics, ty_generics, where_clause) = ast.generics.split_for_impl();
 
-    let variants = match ast.body {
-        syn::Body::Enum(ref v) => v,
+    let variants = match ast.data {
+        syn::Data::Enum(ref data) => &data.variants,
         _ => panic!("EnumIndex can be only implemented for Enums")
     };
 
     let mut matches = Vec::new();
 
     for variant in variants {
-        use syn::VariantData::*;
+        use syn::Fields::*;
         let ident = &variant.ident;
 
-        let params = match variant.data {
-            Unit => quote::Ident::from(""),
-            Tuple(..) => quote::Ident::from("(..)"),
-            Struct(..) => quote::Ident::from("{..}")
+        let params = match &variant.fields {
+            Unit => proc_macro2::TokenStream::new(),
+            Unnamed(..) => syn::parse_str("(..)").unwrap(),
+            Named(..) => syn::parse_str("{..}").unwrap(),
         };
 
         let index = matches.len();
@@ -54,20 +53,19 @@ fn impl_enum_index(ast: &syn::DeriveInput) -> quote::Tokens {
 
 #[proc_macro_derive(IndexEnum)]
 pub fn index_enum(input: TokenStream) -> TokenStream {
-    let s = input.to_string();
-    let ast = syn::parse_derive_input(&s).unwrap();
+    let ast: syn::DeriveInput = syn::parse(input).unwrap();
 
     let tokens = impl_index_enum(&ast);
-    tokens.parse().unwrap()
+    tokens.into()
 }
 
 
-fn impl_index_enum(ast: &syn::DeriveInput) -> quote::Tokens {
+fn impl_index_enum(ast: &syn::DeriveInput) -> proc_macro2::TokenStream {
     let name = &ast.ident;
     let (impl_generics, ty_generics, where_clause) = ast.generics.split_for_impl();
 
-    let variants = match ast.body {
-        syn::Body::Enum(ref v) => v,
+    let variants = match ast.data {
+        syn::Data::Enum(ref data) => &data.variants,
         _ => panic!("IndexEnum can be only implemented for Enums")
     };
 
@@ -75,15 +73,15 @@ fn impl_index_enum(ast: &syn::DeriveInput) -> quote::Tokens {
     let mut index : usize = 0;
 
     for variant in variants {
-        use syn::VariantData::*;
+        use syn::Fields::*;
         let ident = &variant.ident;
-        match variant.data {
+        match variant.fields {
             Unit => {
                 index_matches.push(quote! { #index => Some(#name::#ident) });
             },
-            Tuple(ref fields) => {
+            Unnamed(ref fields) => {
                 let mut initialized_fields = Vec::new();
-                for field in fields {
+                for field in &fields.unnamed {
                     let field_type = &field.ty;
                     initialized_fields.push(quote! { #field_type::default()} );
                 }
@@ -91,9 +89,9 @@ fn impl_index_enum(ast: &syn::DeriveInput) -> quote::Tokens {
                     #index => Some(#name::#ident(#(#initialized_fields),*))
                 });
             }
-            Struct(ref fields) => {
+            Named(ref fields) => {
                 let mut initialized_fields = Vec::new();
-                for field in fields {
+                for field in &fields.named {
                     let field_name = &field.ident;
                     let field_type = &field.ty;
                     initialized_fields.push(quote! { #field_name: #field_type::default()});
