@@ -6,11 +6,15 @@ license = "MIT"
 
 description = "Trait and macros for extracting Enum variant index and creating Enum by variant index"
 keywords = ["enum", "macros", "index"]
+categories = ["no-std", "data-structures"]
 
 homepage = "https://github.com/regresscheck/enum_index"
 
 readme = "../README.md"
 
+[features]
+default = ["std"]
+std = []
 
 [dev-dependencies]
 enum_index_derive = "0.2.0"

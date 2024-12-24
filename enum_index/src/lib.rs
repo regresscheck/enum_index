@@ -1,3 +1,5 @@
+#![cfg_attr(not(any(feature = "std", test)), no_std)]
+
 pub trait EnumIndex {
     fn enum_index(&self) -> usize;
 }
